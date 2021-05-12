@@ -5,36 +5,45 @@ using JSON
 using SwaggerMarkdown
 
 @swagger """
-/:
+/doge:
   get:
-    description: Welcome to swagger-jsdoc!
+    description: doge
     responses:
       '200':
-        description: Returns a mysterious string.
+        description: Returns a doge.
 """
 
 @swagger """
-/:
+/to:
   put:
-    description: Welcome to swagger-jsdoc!
+    description: to
     responses:
       '200':
-        description: Returns a mysterious string.
+        description: Returns a doge.
 """
 
 @swagger """
-/fff:
+/the:
   post:
-    description: Welcome to swagger-jsdoc!
+    description: the
     responses:
       '200':
-        description: Returns a mysterious string.
+        description: Returns a doge.
+"""
+
+@swagger """
+/moon:
+  get:
+    description: moon
+    responses:
+      '200':
+        description: Returns a moon.
 """
 
 
-function test()
+function run_example()
     info = Dict{String, Any}()
-    info["title"] = "Swagger Petstore"
+    info["title"] = "Doge to the moon"
     info["version"] = "1.0.5"
     openApi = OpenAPI("2.0", info)
 
@@ -42,4 +51,4 @@ function test()
     println(JSON.json(spec))
 end
 
-test()
+run_example()

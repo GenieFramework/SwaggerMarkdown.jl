@@ -14,9 +14,7 @@ function parse_spec()
         end
     end
     # clean up
-    if !isdir(TMP)
-        rm(TMP, recursive=true)
-    end
+    rm(TMP, force=true, recursive=true)
     return paths
 end
 
