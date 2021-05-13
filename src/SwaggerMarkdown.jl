@@ -10,7 +10,9 @@ include("Utils.jl")
 
 export OpenAPI, build, @swagger, validate_spec
 
-const TMP = "tmp"
+const ROOT = dirname(dirname(@__FILE__))
+
+const TMP = joinpath(ROOT, "tmp")
 
 macro swagger(doc)
     if !isdir(TMP)
