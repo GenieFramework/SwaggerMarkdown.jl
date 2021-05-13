@@ -17,24 +17,3 @@ function parse_spec()
     rm(TMP, force=true, recursive=true)
     return paths
 end
-
-
-function merge_spec(spec::Union{OpenAPI, Dict{String, Any}}, paths)::Dict{String, Any}
-    # load basic information
-    if spec isa OpenAPI
-        openApi = spec
-        spec = Dict{String, Any}()
-        spec["swagger"] = openApi.version
-        spec["info"] = openApi.info
-        for (key, val) in openApi.optional_fields
-            spec[key] = val
-        end
-    end
-
-    # load paths
-    if !haskey(spec, "paths")
-        spec["paths"] = Dict{String, Array}()
-    end
-    spec["paths"] = paths
-    return spec
-end

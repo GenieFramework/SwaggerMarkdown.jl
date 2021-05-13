@@ -15,12 +15,14 @@ mutable struct OpenAPI
         this.version = version
         this.info= info
         this.optional_fields = optional_fields
+        this.paths = Dict{String, Any}()
         return this
     end
 end
 struct InvalidSwaggerSpecificationException <:Exception
     issue::JSONSchema.SingleIssue
 end
+
 
 function Base.showerror(io::IO, e::InvalidSwaggerSpecificationException)
     issue = e.issue
@@ -32,9 +34,18 @@ function Base.showerror(io::IO, e::InvalidSwaggerSpecificationException)
     schema value: $(issue.val)""")
 end
 
+
 function validate_spec(spec::Dict{String, Any})
-    @assert haskey(spec, "swagger") "Field 'swagger' is missing"
-    version = spec["swagger"]
+    
+    @assert (haskey(spec, "swagger") || haskey(spec, "openapi")) "Field 'swagger' (v2) or 'openapi' (v3) is missing"
+
+    version_name = haskey(spec, "swagger") ? "swagger" : "openapi"
+    version = spec[version_name]
+    if version == "3.0"
+        spec[version_name] = "3.0.0"
+    elseif startswith(version, "3.0")
+        version = "3.0"
+    end
     @assert haskey(VERSIONS, version) "Version $(version) is not supported"
 
     openapi_schema = JSONSchema.Schema(JSON.parsefile(joinpath(SCHEMA_DIR , "$(VERSIONS[version]).json")))
@@ -46,6 +57,11 @@ function validate_spec(spec::Dict{String, Any})
 end
 
 function validate_spec(file::String)
-    validate_spec(JSON.parsefile(file))
+    if endswith(file, ".json")
+        return validate_spec(JSON.parsefile(file))
+    end
+    if endswith(file, ".yml")
+        return validate_spec(YAML.load_file(file, dicttype=Dict{String, Any}))
+    end
 end
 

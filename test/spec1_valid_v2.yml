@@ -1,0 +1,116 @@
+swagger: "2.0"
+info:
+    version: 1.0.0
+    title: Simple Artist API
+    description: A simple API to understand the Swagger Specification in greater detail
+schemes:
+    - https
+host: example.io
+basePath: /v1
+securityDefinitions:
+    UserSecurity:
+        type: basic
+security:
+    - UserSecurity: []
+paths:
+    /artists:
+        get:
+            description: Returns a list of artists
+            parameters:
+                - $ref: "#/parameters/PageLimit"
+                - $ref: "#/parameters/PageNumber"
+
+            responses:
+                '200':
+                    description: Successfully returned a list of artists
+                    schema:
+                        type: array
+                        items:
+                            $ref: "#/definitions/Artist"
+
+                '400':
+                    #  ----- Added line  ----------------------------------------
+                    $ref: "#/responses/400Error"
+                    #  ---- /Added line  ----------------------------------------
+
+        post:
+            description: Lets a user post a new artist
+            parameters:
+                - name: artist
+                  in: body
+                  description: creates a new artist in our database
+                  schema:
+                      $ref: "#/definitions/Artist"
+
+            responses:
+                '200':
+                    description: Successfully created a new artist
+
+                '400':
+                    #  ----- Added line  ----------------------------------------
+                    $ref: "#/responses/400Error"
+                    #  ---- /Added line  ----------------------------------------
+
+    /artists/{username}:
+        get:
+            description: Obtain information about an artist from his or her unique username
+            parameters:
+                - name: username
+                  in: path
+                  type: string
+                  required: true
+
+            responses:
+                '200':
+                    description: Successfully returned an artist
+                    schema:
+                        type: object
+                        properties:
+                            artist_name:
+                                type: string
+                            artist_genre:
+                                type: string
+                            albums_recorded:
+                                type: integer
+
+                '400':
+                    #  ----- Added line  ----------------------------------------
+                    $ref: "#/responses/400Error"
+                    #  ---- /Added line  ----------------------------------------
+
+definitions:
+    Artist:
+        type: object
+        required:
+            - username
+        properties:
+            artist_name:
+                type: string
+            artist_genre:
+                type: string
+            albums_recorded:
+                type: integer
+            username:
+                type: string
+#  ----- Added lines  ----------------------------------------
+parameters:
+    PageLimit:
+        name: limit
+        in: query
+        type: integer
+        description: Limits the number of items on a page
+
+    PageNumber:
+        name: offset
+        in: query
+        type: integer
+        description: Specifies the page number of the artists to be displayed
+responses:
+    400Error:
+        description: Invalid request
+        schema:
+            type: object
+            properties:
+                message:
+                    type: string
+#  ---- /Added lines  ----------------------------------------

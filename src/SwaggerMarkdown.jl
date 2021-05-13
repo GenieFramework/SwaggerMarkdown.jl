@@ -5,12 +5,12 @@ import YAML
 import JSON
 import UUIDs
 
+const ROOT = dirname(dirname(@__FILE__))
+
 include("OpenAPI.jl")
 include("Utils.jl")
 
 export OpenAPI, build, @swagger, validate_spec
-
-const ROOT = dirname(dirname(@__FILE__))
 
 const TMP = joinpath(ROOT, "tmp")
 
@@ -23,12 +23,27 @@ end
 
 
 function build(spec::Union{OpenAPI, Dict{String, Any}}; doc_parser::Function=parse_spec)
-    paths = doc_parser()
-    spec = merge_spec(spec, paths)
+    if spec isa OpenAPI 
+        if isempty(spec.paths)
+            spec.paths = doc_parser()
+        end
+        openApi = spec
+        spec = Dict{String, Any}()
+        version_name = openApi.version == "2.0" ? "swagger" : "openapi"
+        spec[version_name] = openApi.version
+        spec["info"] = openApi.info
+        spec["paths"] = openApi.paths
+        for (key, val) in openApi.optional_fields
+            spec[key] = val
+        end
+    else # spec is Dict{String, Any} type
+        if !haskey(spec, "paths")
+            spec["paths"] = doc_parser()
+        end
+    end
     validate_spec(spec)
     return spec
 end
-
 
 function build(file::String; doc_parser::Function=parse_spec)
     spec = JSON.parsefile(file)
