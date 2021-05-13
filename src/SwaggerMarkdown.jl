@@ -1,5 +1,6 @@
 module SwaggerMarkdown
 
+import JSONSchema
 import YAML
 import JSON
 import UUIDs
@@ -7,7 +8,7 @@ import UUIDs
 include("OpenAPI.jl")
 include("Utils.jl")
 
-export OpenAPI, build, @swagger
+export OpenAPI, build, @swagger, validate_spec
 
 const TMP = "tmp"
 
@@ -22,6 +23,7 @@ end
 function build(spec::Union{OpenAPI, Dict{String, Any}}; doc_parser::Function=parse_spec)
     paths = doc_parser()
     spec = merge_spec(spec, paths)
+    validate_spec(spec)
     return spec
 end
 

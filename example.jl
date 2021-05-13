@@ -42,10 +42,19 @@ using SwaggerMarkdown
 
 
 function run_example()
-    info = Dict{String, Any}()
-    info["title"] = "Doge to the moon"
-    info["version"] = "1.0.5"
-    openApi = OpenAPI("2.0", info)
+    info = Dict{String, Any}([
+        "title"   => "Doge to the moon"
+        "version" => "1.0.5"
+    ])
+
+    optional_fields = Dict{String, Any}([
+        "host"     => "localhost"
+        "basePath" => "/doge"
+        # "bad"      => "bad"
+    ])
+    
+    openApi = OpenAPI("2.0", info, optional_fields=optional_fields)
+
 
     spec = build(openApi)
     println(JSON.json(spec))

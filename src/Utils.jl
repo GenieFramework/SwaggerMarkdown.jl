@@ -18,14 +18,15 @@ function parse_spec()
     return paths
 end
 
-function merge_spec(spec::Union{OpenAPI, Dict{String, Any}}, paths)
+
+function merge_spec(spec::Union{OpenAPI, Dict{String, Any}}, paths)::Dict{String, Any}
     # load basic information
     if spec isa OpenAPI
         openApi = spec
         spec = Dict{String, Any}()
         spec["swagger"] = openApi.version
         spec["info"] = openApi.info
-        for (key, val) in openApi.meta_data
+        for (key, val) in openApi.optional_fields
             spec[key] = val
         end
     end
