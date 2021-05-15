@@ -13,8 +13,7 @@
             "version" => "2.0",
             "title" => "Swagger Petstore"
         ]),
-        "swagger" => "2.0",
-        "paths" => paths
+        "swagger" => "2.0"
     ])
     spec = build(spec)
     @test haskey(spec, "paths")
