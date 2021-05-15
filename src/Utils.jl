@@ -1,5 +1,8 @@
 function parse_spec()
     paths = Dict{String, Any}()
+    if !isdir(TMP)
+        return paths
+    end
     for filename in readdir(TMP)
         ext = split(filename, ".")[end]
         if (ext == "yml")
@@ -16,24 +19,4 @@ function parse_spec()
     # clean up
     rm(TMP, force=true, recursive=true)
     return paths
-end
-
-function merge_spec(spec::Union{OpenAPI, Dict{String, Any}}, paths)
-    # load basic information
-    if spec isa OpenAPI
-        openApi = spec
-        spec = Dict{String, Any}()
-        spec["swagger"] = openApi.version
-        spec["info"] = openApi.info
-        for (key, val) in openApi.meta_data
-            spec[key] = val
-        end
-    end
-
-    # load paths
-    if !haskey(spec, "paths")
-        spec["paths"] = Dict{String, Array}()
-    end
-    spec["paths"] = paths
-    return spec
 end
