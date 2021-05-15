@@ -34,8 +34,8 @@ function get_paths(ps)
     return res
 end
 
-const paths = get_paths(["/doge"])
-const invalid_paths = get_paths(["/bad"])
+paths = get_paths(["/doge"])
+invalid_paths = get_paths(["/bad"])
 
 function get_optional_fields(version)
     if version == "2.0"
@@ -128,15 +128,15 @@ for version in versions
     end
 end
 
-const valid_specs = ["spec1_valid_v3.yml", "spec1_valid_v2.yml"]
-const invalid_specs = ["spec1_invalid_v3.yml", "spec1_invalid_v2.yml"]
+const valid_specs = ["spec1_valid_v3.yml", "spec1_valid_v2.yml", "spec1_valid_v3.json", "spec1_valid_v2.json"]
+const invalid_specs = ["spec1_invalid_v3.yml", "spec1_invalid_v2.yml", "spec1_invalid_v3.json", "spec1_invalid_v2.json"]
 
 # More complex tests
 @testset "Validate more complex specifications" begin
     for spec in valid_specs
-        @test SwaggerMarkdown.validate_spec(joinpath(TEST_ROOT, spec)) === nothing
+        @test SwaggerMarkdown.validate_spec(joinpath(SPECS_PATH, spec)) === nothing
     end
     for spec in invalid_specs
-        @test_throws SwaggerMarkdown.InvalidSwaggerSpecificationException SwaggerMarkdown.validate_spec(joinpath(TEST_ROOT, spec))
+        @test_throws SwaggerMarkdown.InvalidSwaggerSpecificationException SwaggerMarkdown.validate_spec(joinpath(SPECS_PATH, spec))
     end
 end

@@ -1,13 +1,52 @@
-include("parse_setup.jl")
+@swagger """
+/:
+  get:
+    description: Testing swagger markdown root get!
+    responses:
+      '200':
+        description: Returns a mysterious string get.
+"""
+
+@swagger """
+/:
+  put:
+    description: Testing swagger markdown root put!
+    responses:
+      '200':
+        description: Returns a mysterious string put.
+"""
+
+@swagger """
+/:
+  post:
+    description: Testing swagger markdown root post!
+    responses:
+      '200':
+        description: Returns a mysterious string post.
+"""
+
+@swagger """
+/test:
+  post:
+    description: Testing swagger markdown test!
+    responses:
+      '200':
+        description: Returns a mysterious string test.
+"""
+
+@testset "Without swagger doc defined" begin
+    
+end
+
 
 @testset "Parse markdown for routes correctly" begin
     paths = SwaggerMarkdown.parse_spec()
     cleanup()
 
     @testset "'/' route should have GET, PUT and POST" begin
-        ROOT = "/"
-        @test haskey(paths, ROOT)
-        r = paths[ROOT]
+        ROOT_ROUTE = "/"
+        @test haskey(paths, ROOT_ROUTE)
+        r = paths[ROOT_ROUTE]
         @test haskey(r, GET)
         @test haskey(r, PUT)
         @test haskey(r, POST)

@@ -1,5 +1,8 @@
 function parse_spec()
     paths = Dict{String, Any}()
+    if !isdir(TMP)
+        return paths
+    end
     for filename in readdir(TMP)
         ext = split(filename, ".")[end]
         if (ext == "yml")

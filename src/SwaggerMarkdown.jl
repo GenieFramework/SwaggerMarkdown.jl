@@ -46,8 +46,12 @@ function build(spec::Union{OpenAPI, Dict{String, Any}}; doc_parser::Function=par
 end
 
 function build(file::String; doc_parser::Function=parse_spec)
-    spec = JSON.parsefile(file)
-    return build(spec, doc_parser=doc_parser)
+    if endswith(file, ".json")
+        return build(JSON.parsefile(file), doc_parser=doc_parser)
+    end
+    if endswith(file, ".yml")
+        return build(YAML.load_file(file, dicttype=Dict{String, Any}), doc_parser=doc_parser)
+    end
 end
 
 

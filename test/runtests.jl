@@ -7,6 +7,7 @@ const POST = "post"
 
 const ROOT = dirname(dirname(@__FILE__))
 const TEST_ROOT = dirname(@__FILE__)
+const SPECS_PATH = joinpath(TEST_ROOT, "specs")
 
 include("utils.jl")
 include("swagger_tests.jl")
