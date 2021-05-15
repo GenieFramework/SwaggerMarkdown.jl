@@ -12,3 +12,6 @@ YAML = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 
 [compat]
 julia = "1.5, 1.6"
+JSON = "0.21.1"
+JSONSchema = "0.3.3"
+YAML = "0.4.6"
