@@ -21,8 +21,16 @@ macro swagger(doc)
     return :( io = open(joinpath(SwaggerMarkdown.TMP, "$(string(UUIDs.uuid4())).yml"), "w"); write(io, $doc); close(io) )
 end
 
+"""
+    build(spec::Union{OpenAPI, Dict{String, Any}})::Dict{String, Any}
 
-function build(spec::Union{OpenAPI, Dict{String, Any}}; doc_parser::Function=parse_spec)
+Build a `Dict{String, Any}` as OpenAPI definitions.
+
+# Arguments
+Required:
+- `spec::Union{OpenAPI, Dict{String, Any}}` : An `OpenAPI` or a `Dict{String, Any}}` with some pre-defined specs.
+"""
+function build(spec::Union{OpenAPI, Dict{String, Any}}; doc_parser::Function=parse_spec)::Dict{String, Any}
     if spec isa OpenAPI 
         if isempty(spec.paths)
             spec.paths = doc_parser()
@@ -45,7 +53,16 @@ function build(spec::Union{OpenAPI, Dict{String, Any}}; doc_parser::Function=par
     return spec
 end
 
-function build(file::String; doc_parser::Function=parse_spec)
+"""
+    build(file::String)::Dict{String, Any}
+
+Build a `Dict{String, Any}()` as OpenAPI definitions from a `json` or `yml` file.
+
+# Arguments
+Required:
+- `file::String` : A `json` or `yml` file used to build the OpenAPI definitions.
+"""
+function build(file::String; doc_parser::Function=parse_spec)::Dict{String, Any}
     if endswith(file, ".json")
         return build(JSON.parsefile(file), doc_parser=doc_parser)
     end
