@@ -19,6 +19,19 @@ mutable struct OpenAPI
         return this
     end
 end
+
+function openApiToDict(openApi::OpenAPI)::Dict{String, Any}
+    spec_dict = Dict{String, Any}()
+    version_name = openApi.version == "2.0" ? "swagger" : "openapi"
+    spec_dict[version_name] = openApi.version
+    spec_dict["info"] = openApi.info
+    spec_dict["paths"] = openApi.paths
+    for (key, val) in openApi.optional_fields
+        spec_dict[key] = val
+    end
+    return spec_dict
+end
+
 struct InvalidSwaggerSpecificationException <:Exception
     issue::JSONSchema.SingleIssue
 end
