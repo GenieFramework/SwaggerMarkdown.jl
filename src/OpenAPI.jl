@@ -13,7 +13,7 @@ mutable struct OpenAPI
     function OpenAPI(version::String, info::Dict{String, Any}; optional_fields::Dict{String, Any}=Dict{String, Any}())
         this = new()
         this.version = version
-        this.info= info
+        this.info = info
         this.optional_fields = optional_fields
         this.paths = Dict{String, Any}()
         return this
