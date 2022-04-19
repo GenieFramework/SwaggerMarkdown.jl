@@ -9,11 +9,9 @@ The package is inspired by, and it uses the similar style as [swagger-jsdoc](htt
 
 ## Installation
 
-The package hasn't been published to [General](https://github.com/JuliaRegistries/General) yet, so it can be added only through the GitHub. The following commands explain the process.
-
 ```julia
 julia> ]
-pkg> add https://github.com/jiachengzhang1/SwaggerMarkdown
+pkg> add SwaggerMarkdown
 ```
 
 ## Usage
