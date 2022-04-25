@@ -10,7 +10,7 @@ mutable struct OpenAPI
     paths::Dict{String, Any}
     optional_fields::Dict{String, Any}
 
-    function OpenAPI(version::String, info::Dict{String, Any}; optional_fields::Dict{String, Any}=Dict{String, Any}())
+    function OpenAPI(version::String, info::Dict{String,<:Any}; optional_fields::Dict{String, Any}=Dict{String, Any}())
         this = new()
         this.version = version
         this.info = info
@@ -49,7 +49,7 @@ end
 
 
 function validate_spec(spec::Dict{String, Any})
-    
+
     @assert (haskey(spec, "swagger") || haskey(spec, "openapi")) "Field 'swagger' (v2) or 'openapi' (v3) is missing"
 
     version_name = haskey(spec, "swagger") ? "swagger" : "openapi"
@@ -62,7 +62,7 @@ function validate_spec(spec::Dict{String, Any})
     @assert haskey(VERSIONS, version) "Version $(version) is not supported"
 
     openapi_schema = JSONSchema.Schema(JSON.parsefile(joinpath(SCHEMA_DIR , "$(VERSIONS[version]).json")))
-    
+
     issue = JSONSchema.validate(spec, openapi_schema)
     if issue !== nothing
         throw(InvalidSwaggerSpecificationException(issue))
