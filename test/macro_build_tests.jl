@@ -1,3 +1,37 @@
+@testset "Build directly through Dict with @swagger_str" begin
+    swagger"""
+    /test_swagger_str:
+        post:
+            description: Testing swagger markdown test!
+            responses:
+                '200':
+                    description: Returns a mysterious string test.
+    """
+
+    @swagger """
+    /test_swagger:
+        post:
+            description: Testing swagger markdown test!
+            responses:
+                '200':
+                    description: Returns a mysterious string test.
+    """
+
+    spec = Dict{String, Any}([
+        "info" => Dict{String, Any}([
+            "version" => "2.0",
+            "title" => "Swagger Petstore"
+        ]),
+        "swagger" => "2.0"
+    ])
+    spec = build(spec)
+    @test haskey(spec, "paths")
+    
+    paths = spec["paths"];
+    @test haskey(paths, "/test_swagger")
+    @test haskey(paths, "/test_swagger_str")
+end
+
 @testset "Build directly through Dict" begin
     @swagger """
     /test:

@@ -8,11 +8,16 @@ const ROOT = dirname(dirname(@__FILE__))
 
 include("OpenAPI.jl")
 
-export OpenAPI, build, @swagger_str, InvalidSwaggerSpecificationException
+export OpenAPI, build, @swagger, @swagger_str, InvalidSwaggerSpecificationException
 
 const DOCS = []
 
 macro swagger_str(doc)
+    m = @__MODULE__
+    return esc(quote push!($m.DOCS, $doc) end)
+end
+
+macro swagger(doc)
     m = @__MODULE__
     return esc(quote push!($m.DOCS, $doc) end)
 end
