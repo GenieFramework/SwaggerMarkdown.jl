@@ -1,7 +1,7 @@
 name = "SwaggerMarkdown"
 uuid = "1b6eb727-ad4b-44eb-9669-b9596a6e760f"
 authors = ["Jiacheng Zhang <zhangjiacheng54@gmail.com>"]
-version = "0.2"
+version = "0.2.1"
 
 [deps]
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
@@ -13,5 +13,5 @@ YAML = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 [compat]
 julia = "1.5, 1.6, 1.7, 1.8"
 JSON = "0.21.1"
-JSONSchema = "0.3.3"
+JSONSchema = "0.3, 1"
 YAML = "0.4.6"
