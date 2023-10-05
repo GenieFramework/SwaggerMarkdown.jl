@@ -3,6 +3,7 @@ module SwaggerMarkdown
 import JSONSchema
 import YAML
 import JSON
+import RelocatableFolders
 
 const ROOT = dirname(dirname(@__FILE__))
 
