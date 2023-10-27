@@ -1,17 +1,18 @@
 name = "SwaggerMarkdown"
 uuid = "1b6eb727-ad4b-44eb-9669-b9596a6e760f"
 authors = ["Jiacheng Zhang <zhangjiacheng54@gmail.com>"]
-version = "0.2.1"
+version = "0.2.2"
 
 [deps]
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 JSONSchema = "7d188eb4-7ad8-530c-ae41-71a32a6d4692"
+RelocatableFolders = "05181044-ff0b-4ac5-8273-598c1e38db00"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 YAML = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 
 [compat]
-julia = "1.5, 1.6, 1.7, 1.8"
 JSON = "0.21.1"
 JSONSchema = "0.3, 1"
 YAML = "0.4.6"
+julia = "1.5, 1.6, 1.7, 1.8"

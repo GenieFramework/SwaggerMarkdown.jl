@@ -1,4 +1,4 @@
-const SCHEMA_DIR = joinpath(ROOT, "schema")
+const SCHEMA_DIR = RelocatableFolders.@path joinpath(ROOT, "schema")
 const VERSIONS = Dict([
     "2.0" => "v2",
     "3.0" => "v3",
