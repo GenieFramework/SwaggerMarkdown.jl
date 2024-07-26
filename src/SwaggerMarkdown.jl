@@ -7,25 +7,24 @@ import RelocatableFolders
 
 const ROOT = dirname(dirname(@__FILE__))
 
+include("Utils.jl")
 include("OpenAPI.jl")
 
 export OpenAPI, build, InvalidSwaggerSpecificationException
 export @swagger, @swagger_str
 export @swagger_schemas_str, @swagger_schemas
-export @swagger_pathitems_str, @swagger_pathitems
 export @swagger_parameters_str, @swagger_parameters
 export @swagger_requestBodies_str, @swagger_requestBodies
 export @swagger_responses_str, @swagger_responses
 export @swagger_headers_str, @swagger_headers
 export @swagger_examples_str, @swagger_examples
 export @swagger_links_str, @swagger_links
-export @swagger_links_str, @swagger_links
+export @swagger_callbacks_str, @swagger_callbacks
 
 const DOCS = []
 
 # Components
 const SCHEMAS = []
-const PATHITEMS = []
 const PARAMETERS = []
 const REQUESTBODIES = []
 const RESPONSES = []
@@ -60,20 +59,6 @@ end
 function swagger_schemas(doc)
     m = @__MODULE__
     return esc(quote push!($m.SCHEMAS, $doc) end)
-end
-
-### PATHITEMS
-macro swagger_pathitems_str(doc)
-    swagger_pathitems(doc)
-end
-
-macro swagger_pathitems(doc)
-    swagger_pathitems(doc)
-end
-
-function swagger_pathitems(doc)
-    m = @__MODULE__
-    return esc(quote push!($m.PATHITEMS, $doc) end)
 end
 
 ### PARAMETERS
@@ -175,46 +160,49 @@ function swagger_callbacks(doc)
 end
 
 function fill_components!(spec)
-    if !haskey(spec, "components")
-        spec["components"] = Dict{String, Any}()
-    end
-    
+    tmp  = Dict{String, Any}()
     if !isempty(SCHEMAS)
         component_string = join(SCHEMAS)
-        spec["components"]["schemas"] = YAML.load(component_string)
+        tmp["schemas"] = YAML.load(component_string)
     end
 
-    if !isempty(PATHITEMS)
-        component_string = join(PATHITEMS)
-        spec["components"]["pathitems"] = YAML.load(component_string)
-    end
     if !isempty(PARAMETERS)
         component_string = join(PARAMETERS)
-        spec["components"]["parameters"] = YAML.load(component_string)
+        tmp["parameters"] = YAML.load(component_string)
     end
     if !isempty(REQUESTBODIES)
         component_string = join(REQUESTBODIES)
-        spec["components"]["requestbodies"] = YAML.load(component_string)
+        tmp["requestBodies"] = YAML.load(component_string)
     end
     if !isempty(RESPONSES)
         component_string = join(RESPONSES)
-        spec["components"]["responses"] = YAML.load(component_string)
+        tmp["responses"] = YAML.load(component_string)
     end
     if !isempty(HEADERS)
         component_string = join(HEADERS)
-        spec["components"]["headers"] = YAML.load(component_string)
+        tmp["headers"] = YAML.load(component_string)
     end
     if !isempty(EXAMPLES)
         component_string = join(EXAMPLES)
-        spec["components"]["examples"] = YAML.load(component_string)
+        tmp["examples"] = YAML.load(component_string)
     end
     if !isempty(LINKS)
         component_string = join(LINKS)
-        spec["components"]["links"] = YAML.load(component_string)
+        tmp["links"] = YAML.load(component_string)
     end
     if !isempty(CALLBACKS)
         component_string = join(CALLBACKS)
-        spec["components"]["callbacks"] = YAML.load(component_string)
+        tmp["callbacks"] = YAML.load(component_string)
+    end
+
+    if !haskey(spec, "components")
+        if !isempty(tmp)
+            spec["components"] = tmp
+        end
+    else
+        if !isempty(tmp)
+            spec["components"] = merge_retaining(spec["components"], tmp)
+        end
     end
 end
 

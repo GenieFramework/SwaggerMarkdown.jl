@@ -11,3 +11,4 @@ const SPECS_PATH = joinpath(TEST_ROOT, "specs")
 
 include("file_build_tests.jl")
 include("macro_build_tests.jl")
+include("macro_components_build_tests.jl")
