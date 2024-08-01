@@ -60,9 +60,10 @@ function validate_spec(spec::Dict{String, Any})
     elseif startswith(version, "3.0")
         version = "3.0"
     elseif version == "3.1"
-        spec[version_name] = "3.1"
+        spec[version_name] = "3.1.0"
+        version == "3.1.0" # OpenAPI 3.1.x gives an error if the version is in the format <major>.<minor>
     elseif startswith(version, "3.1")
-        version = "3.1"
+        # NOP; the version should be in the format 3.1.x
     end
     @assert haskey(VERSIONS, version) "Version $(version) is not supported"
 
