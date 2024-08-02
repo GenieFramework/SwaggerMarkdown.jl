@@ -7,15 +7,22 @@ version = "0.2.2"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 JSONSchema = "7d188eb4-7ad8-530c-ae41-71a32a6d4692"
 RelocatableFolders = "05181044-ff0b-4ac5-8273-598c1e38db00"
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 UUIDs = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 YAML = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 
 [compat]
+Aqua = "0.6, 0.7, 0.8"
 JSON = "0.21.1"
 JSONSchema = "0.3, 1"
-YAML = "0.4.6"
-julia = "1.5, 1.6, 1.7, 1.8"
 RelocatableFolders = "1.0.1"
-Test = "1.9.3"
-UUIDs = "1.9.4"
+Test = "1"
+UUIDs = "1"
+YAML = "0.4.6"
+julia = "1.7"
+
+[extras]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Aqua", "Test"]
