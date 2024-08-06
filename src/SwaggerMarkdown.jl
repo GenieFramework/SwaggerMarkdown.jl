@@ -12,14 +12,14 @@ include("OpenAPI.jl")
 
 export OpenAPI, build, InvalidSwaggerSpecificationException
 export @swagger, @swagger_str
-export @swagger_schemas_str, @swagger_schemas
-export @swagger_parameters_str, @swagger_parameters
-export @swagger_requestBodies_str, @swagger_requestBodies
-export @swagger_responses_str, @swagger_responses
-export @swagger_headers_str, @swagger_headers
-export @swagger_examples_str, @swagger_examples
-export @swagger_links_str, @swagger_links
-export @swagger_callbacks_str, @swagger_callbacks
+export @swagger_schemas, @swagger_schemas_str
+export @swagger_parameters, @swagger_parameters_str
+export @swagger_requestBodies, @swagger_requestBodies_str
+export @swagger_responses, @swagger_responses_str
+export @swagger_headers, @swagger_headers_str
+export @swagger_examples, @swagger_examples_str
+export @swagger_links, @swagger_links_str
+export @swagger_callbacks, @swagger_callbacks_str
 
 const DOCS = []
 
