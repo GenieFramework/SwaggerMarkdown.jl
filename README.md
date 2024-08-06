@@ -87,3 +87,36 @@ optional_fields["basePath"] = ENV["BASEPATH"]
 openApi = OpenAPI("3.0", info, optional_fields=optional_fields)
 ```
 
+### Components
+
+Components are supported by additional macros. 
+
+- @swagger_schemas
+- @swagger_parameters
+- @swagger_requestBodies
+- @swagger_responses
+- @swagger_headers
+- @swagger_examples
+- @swagger_links
+- @swagger_callbacks
+
+These can be used anywhere in the code.
+
+```julia
+using JSON
+using SwaggerMarkdown
+
+@swagger_schemas """
+ErrorModel_api:
+    type: object
+    required:
+        - code
+        - message
+    properties:
+        code:
+            type: integer
+            format: int32
+        message:
+            type: string
+"""
+```

@@ -16,3 +16,4 @@ end
 
 include("file_build_tests.jl")
 include("macro_build_tests.jl")
+include("macro_components_build_tests.jl")
