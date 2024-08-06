@@ -1,5 +1,5 @@
 @testset "Build components directly through Dict with @swagger_str" begin
-    @swagger"""
+    swagger"""
     /test_swagger:
         post:
             description: Testing swagger markdown test!
@@ -9,7 +9,7 @@
     """
     
     # https://support.smartbear.com/swaggerhub/docs/en/domains/openapi-3-0-domain-example.html
-    @swagger_schemas"""
+    swagger_schemas"""
     ErrorModel:
         type: object
         required:
@@ -23,7 +23,7 @@
                 type: string
     """
 
-    @swagger_parameters"""
+    swagger_parameters"""
     offsetParam:
         name: offset
         in: query
@@ -43,7 +43,7 @@
         description: The number of items to return
     """
 
-    @swagger_requestBodies"""
+    swagger_requestBodies"""
     NewItem:
         description: A JSON object containing item data
         required: true
@@ -56,7 +56,7 @@
                         \$ref: '#/components/examples/tshirt'
     """
 
-    @swagger_responses"""
+    swagger_responses"""
     GeneralError:
         description: An error occurred
         content:
@@ -70,7 +70,7 @@
                 \$ref: '#/components/headers/X-RateLimit-Remaining'
     """
 
-    @swagger_headers"""
+    swagger_headers"""
     X-RateLimit-Limit:
         description: Request limit per hour
         schema:
@@ -83,7 +83,7 @@
         example: 94
     """
 
-    @swagger_examples"""
+    swagger_examples"""
     tshirt:
         summary: Sample T-shirt data
         value:
@@ -95,7 +95,7 @@
     """
 
     # https://swagger.io/docs/specification/links/
-    @swagger_links"""
+    swagger_links"""
     GetUserByUserId:   # <---- arbitrary name for the link
         operationId: getUser
         parameters:
@@ -106,7 +106,7 @@
     """
 
     # https://swagger.io/docs/specification/callbacks/
-    @swagger_callbacks"""
+    swagger_callbacks"""
     myEvent:   # Event name
         '{\$request.body#/callbackUrl}':   # The callback URL,
                                         # Refers to the passed URL
@@ -133,7 +133,7 @@
             "version" => "3.0",
             "title" => "API example"
         ]),
-        "openapi" => "3.0"
+        "openapi" => "3.1"
     ])
 
     spec = build(spec)
@@ -279,7 +279,7 @@ end
     """
 
     # https://swagger.io/docs/specification/callbacks/
-    @swagger_callbacks"""
+    @swagger_callbacks """
     myEvent_dict:   # Event name
         '{\$request.body#/callbackUrl}':   # The callback URL,
                                         # Refers to the passed URL
@@ -306,7 +306,7 @@ end
             "version" => "3.0",
             "title" => "API example"
         ]),
-        "openapi" => "3.0"
+        "openapi" => "3.1"
     ])
     spec = build(spec)
     @test haskey(spec, "paths")
@@ -448,10 +448,10 @@ end
     """
 
     # https://swagger.io/docs/specification/callbacks/
-    @swagger_callbacks"""
+    @swagger_callbacks """
     myEvent_api:   # Event name
         '{\$request.body#/callbackUrl}':   # The callback URL,
-                                        # Refers to the passed URL
+                                           # Refers to the passed URL
             post:
                 requestBody:   # Contents of the callback message
                     required: true
@@ -473,7 +473,7 @@ end
     info = Dict{String, Any}()
     info["title"] = "Swagger Petstore"
     info["version"] = "1.0.5"
-    openApi = OpenAPI("3.0", info)
+    openApi = OpenAPI("3.1", info)
 
     spec = build(openApi)
 
@@ -481,7 +481,7 @@ end
     @assert haskey(spec, "paths")
     @assert haskey(spec, "info")
 
-    @test openApi.version == "3.0"
+    @test openApi.version == "3.1"
     @test openApi.info["title"] == "Swagger Petstore"
     @test openApi.info["version"] == "1.0.5"
 
