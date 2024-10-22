@@ -89,34 +89,46 @@ openApi = OpenAPI("3.0", info, optional_fields=optional_fields)
 
 ### Components
 
-Components are supported by additional macros. 
+[Components](https://swagger.io/docs/specification/v3_0/components/) are supported by additional macros.
 
-- @swagger_schemas
-- @swagger_parameters
-- @swagger_requestBodies
-- @swagger_responses
-- @swagger_headers
-- @swagger_examples
-- @swagger_links
-- @swagger_callbacks
+- `@swagger_schemas`
+- `@swagger_parameters`
+- `@swagger_requestBodies`
+- `@swagger_responses`
+- `@swagger_headers`
+- `@swagger_examples`
+- `@swagger_links`
+- `@swagger_callbacks`
 
-These can be used anywhere in the code.
+These can be used anywhere in the code. The following example declares a `User` schema which can be [referenced](https://swagger.io/docs/specification/v3_0/using-ref/).
 
 ```julia
 using JSON
 using SwaggerMarkdown
 
 @swagger_schemas """
-ErrorModel_api:
-    type: object
-    required:
-        - code
-        - message
-    properties:
-        code:
-            type: integer
-            format: int32
-        message:
-            type: string
+User:
+  properties:
+    id:
+      type: integer
+    name:
+      type: string
 """
 ```
+
+The schema can then be used to describe e.g. the response of an endpoint.
+
+```julia
+@swagger """
+/user:
+  get:
+    description: Get a user
+    responses:
+      '200':
+        description: Successful retrieval of a user
+        schema:
+          \$ref: "#/components/schemas/User"
+"""
+```
+
+Please note the `\` in front of `$ref` for escaping the `$` which is normally used for string interpolation.
