@@ -12,7 +12,7 @@ YAML = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 
 [compat]
 Aqua = "0.6, 0.7, 0.8"
-JSON = "1"
+JSON = "0.21.1, 1"
 JSONSchema = "0.3, 1"
 RelocatableFolders = "1.0.1"
 Test = "1"
