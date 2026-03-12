@@ -49,7 +49,7 @@ function Base.showerror(io::IO, e::InvalidSwaggerSpecificationException)
 end
 
 
-function validate_spec(spec::Dict{String, Any})
+function validate_spec(spec::AbstractDict{<:AbstractString,<:Any})
 
     @assert (haskey(spec, "swagger") || haskey(spec, "openapi")) "Field 'swagger' (v2) or 'openapi' (v3) is missing"
 
